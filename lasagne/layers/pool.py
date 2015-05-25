@@ -283,6 +283,9 @@ class FeaturePoolLayer(Layer):
                                (num_feature_maps, self.pool_size))
 
     def get_output_shape_for(self, input_shape):
+        #TODO: Temp fix for old API.
+        self.pool_size = self.pool_size if hasattr(self, 'pool_size') else self.ds
+
         output_shape = list(input_shape)  # make a mutable copy
         output_shape[self.axis] = input_shape[self.axis] // self.pool_size
         return tuple(output_shape)

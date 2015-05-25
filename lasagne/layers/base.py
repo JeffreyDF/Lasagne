@@ -75,7 +75,7 @@ class Layer(object):
         -----
         For layers without any parameters, this will return an empty list.
         """
-        result = list(self.params.keys())
+        result = list(self.params.keys()) if hasattr(self, 'params') else []
 
         only = set(tag for tag, value in tags.items() if value)
         if only:

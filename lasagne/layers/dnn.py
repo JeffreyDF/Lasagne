@@ -77,6 +77,11 @@ class Pool2DDNNLayer(DNNLayer):
         self.mode = mode
 
     def get_output_shape_for(self, input_shape):
+        #TODO: Temp fix for old API.
+        self.stride = self.strides if hasattr(self, 'strides') else self.stride
+        self.pool_size = self.pool_size if hasattr(self, 'pool_size') else self.ds
+        self.pad = self.pad if hasattr(self, 'pad') else (0, 0)
+
         output_shape = list(input_shape)  # copy / convert to mutable list
         output_shape[2] = (
             output_shape[2] + 2 * self.pad[0] - self.pool_size[0]
@@ -267,6 +272,8 @@ class Conv2DDNNLayer(DNNLayer):
 
     def get_output_shape_for(self, input_shape):
         batch_size = input_shape[0]
+        #TODO: Temp fix for old API.
+        self.stride = self.strides if hasattr(self, 'strides') else self.stride
 
         output_rows = conv_output_length(input_shape[2],
                                          self.filter_size[0],
